@@ -1,4 +1,4 @@
-## BookMyShow (Java + React)
+## CineNova(Java + React)
 
 ### Folder structure
 - **Backend (Spring Boot / Maven)**: repo root (`pom.xml`, `src/main/java/...`)
