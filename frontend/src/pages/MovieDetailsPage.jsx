@@ -6,7 +6,7 @@ import { useBooking } from '../contexts/BookingContext'
 import { Star, Clock, Globe, Calendar, Play, Tag, ShieldCheck } from 'lucide-react'
 
 function MovieDetailsPage() {
-  const { movieId } = useParams()
+  const { id } = useParams()
   const navigate = useNavigate()
   const [movie, setMovie] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -16,13 +16,13 @@ function MovieDetailsPage() {
 
   useEffect(() => {
     loadMovie()
-  }, [movieId])
+  }, [id])
 
   const loadMovie = async () => {
     try {
       setLoading(true)
       setError(null)
-      const data = await movieService.getById(movieId)
+      const data = await movieService.getById(id)
       setMovie(data || {})
     } catch (err) {
       const errorMsg = err.response?.data?.message || err.message || 'Failed to load movie'
