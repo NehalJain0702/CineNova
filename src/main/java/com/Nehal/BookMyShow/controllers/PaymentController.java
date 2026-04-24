@@ -9,7 +9,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/payments") // ⚠️ matches your baseURL
-@CrossOrigin(origins = "*")
+
 public class PaymentController {
 
     // ✅ 1. Initiate Payment (POST /payments)
