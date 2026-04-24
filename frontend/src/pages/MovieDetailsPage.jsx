@@ -36,7 +36,7 @@ function MovieDetailsPage() {
   const handleBookTickets = () => {
     if (movie) {
       setBookingMovie(movie)
-      navigate(`/theatres/${movieId}`)
+      navigate(`/theatres/${id}`)
     }
   }
 
@@ -52,8 +52,8 @@ function MovieDetailsPage() {
     return <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-950 text-slate-500 dark:text-slate-400 text-xl font-medium">Movie not found</div>
   }
 
-  const bannerUrl = `https://picsum.photos/seed/${movieId}banner/1920/600`
-  const posterUrl = movie.posterUrl || `https://picsum.photos/seed/${movieId}/400/600`
+  const bannerUrl = `https://picsum.photos/seed/${id}banner/1920/600`
+  const posterUrl = movie.posterUrl || `https://picsum.photos/seed/${id}/400/600`
 
   return (
     <div className="bg-slate-50 dark:bg-slate-950 min-h-screen pb-20 transition-colors duration-300">
