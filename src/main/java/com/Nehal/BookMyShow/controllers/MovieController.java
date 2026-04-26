@@ -137,7 +137,7 @@ public class MovieController {
                 4.5
         );
         m1.setId(1);
-
+        m1.setStatus("Now Showing");
         Movie m2 = new Movie(
                 "Pushpa",
                 List.of(Language.Hindi),
@@ -148,7 +148,7 @@ public class MovieController {
                 4.2
         );
         m2.setId(2);
-        
+        m2.setStatus("Now Showing");
         movies.add(m1);
         movies.add(m2);
 

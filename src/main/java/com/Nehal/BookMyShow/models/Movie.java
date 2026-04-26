@@ -27,7 +27,7 @@ public class Movie extends BaseModel {
     public Movie() {
     }
     private String title;
-
+    private String status;
     @Enumerated(EnumType.STRING)
     @ElementCollection
     private List<Language> languages;
@@ -97,5 +97,13 @@ public class Movie extends BaseModel {
 
     public void setActors(List<String> actors) {
         this.actors = actors;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
