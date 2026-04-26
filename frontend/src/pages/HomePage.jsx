@@ -5,6 +5,15 @@ import { SkeletonCard, ErrorMessage } from '../components/LoadingAndError'
 import { movieService } from '../services/apiService'
 import { Film } from 'lucide-react'
 
+// Helper function to safely get a movie ID
+const getMovieId = (movie, index) => {
+  if (movie?.id && movie.id !== 'undefined' && movie.id !== 'null') {
+    return movie.id
+  }
+  // Fallback: use array index or title-based ID
+  console.warn('Movie missing valid ID, using fallback:', movie?.title)
+  return null
+}
 function HomePage() {
   const [movies, setMovies] = useState([])
   const [loading, setLoading] = useState(true)
@@ -20,8 +29,10 @@ function HomePage() {
     try {
       setLoading(true)
       const data = await movieService.getAll()
+      console.log('Fetched movies:', data) // Debug log
       setMovies(data || [])
     } catch (err) {
+      console.error('Movies fetch error:', err) // Debug log
       setError('Failed to load movies. Please try again.')
     } finally {
       setLoading(false)
@@ -30,12 +41,21 @@ function HomePage() {
 
   const searchQuery = searchParams.get('search')?.toLowerCase() || ''
 
-  const filteredMovies = movies.filter(movie =>
-    movie.title?.toLowerCase().includes(searchQuery)
-  )
+  const filteredMovies = movies
+    .filter(movie => {
+      if (!movie.id || movie.id === 'undefined' || movie.id === 'null') {
+        console.warn('Skipping movie without valid ID:', movie)
+        return false
+      }
+      return movie.title?.toLowerCase().includes(searchQuery)
+    })
 
   const handleBook = (id) => {
-    navigate(`/movie/${id}`)
+    if (!id || id === 'undefined' || id === 'null') {
+      console.error('Invalid movie ID:', id)
+      return
+    }
+    navigate(`/movies/${id}`)
   }
 
   if (error) {
@@ -62,9 +82,17 @@ function HomePage() {
         </div>
       ) : filteredMovies.length > 0 ? (
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-          {filteredMovies.map(movie => (
-            <MovieCard key={movie.id} movie={movie} onBook={handleBook} />
-          ))}
+          {filteredMovies.map((movie, index) => {
+            const movieId = getMovieId(movie)
+            return (
+              <MovieCard 
+                key={movieId || index} 
+                movie={movie} 
+                movieId={movieId}
+                onBook={handleBook} 
+              />
+            )
+          })}
         </div>
       ) : (
         <div className="text-center py-20 bg-white/60 dark:bg-slate-900/50 rounded-2xl border border-slate-200/80 dark:border-slate-800 transition-colors duration-300 shadow-sm">

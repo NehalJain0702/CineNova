@@ -6,37 +6,107 @@ import { useBooking } from '../contexts/BookingContext'
 import { Star, Clock, Globe, Calendar, Play, Tag, ShieldCheck } from 'lucide-react'
 
 function MovieDetailsPage() {
-  const { id } = useParams()
+  const { movieId } = useParams()
   const navigate = useNavigate()
   const [movie, setMovie] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [showTrailer, setShowTrailer] = useState(false)
   const { setMovie: setBookingMovie } = useBooking()
+}
+  /**
+   * Convert and validate movieId from URL params
+   * ⚠️ IMPORTANT: useParams() returns strings, not numbers
+   * Backend expects integers, so we must convert
+   */
+  const getValidatedMovieId = () => {
+    if (!movieId) {
+      return null
+    }
+
+    // Convert string to number
+    const numericId = Number(movieId)
+    
+    // Validate it's a positive integer
+    if (isNaN(numericId) || numericId <= 0 || !Number.isInteger(numericId)) {
+      console.error('❌ Invalid movie ID format:', { original: movieId, attempted: numericId })
+      return null
+    }
+
+    console.log('✅ Valid movie ID:', { original: movieId, converted: numericId })
+    return numericId
+  }
 
   useEffect(() => {
     loadMovie()
-  }, [id])
-
+  }, [movieId])
+  const loadMovie = async () => {
+  console.log('🔍 movieId from URL:', movieId, typeof movieId)
+  console.log('🔍 Full URL:', window.location.href)
+  // ... rest of function
   const loadMovie = async () => {
     try {
       setLoading(true)
       setError(null)
-      const data = await movieService.getById(id)
-      setMovie(data || {})
+
+      // ✅ Validate movieId before making API call
+      const validatedId = getValidatedMovieId()
+      
+      if (!validatedId) {
+        const errorMsg = `Invalid movie ID: "${movieId}". Expected a positive integer.`
+        console.error(errorMsg)
+        setError(errorMsg)
+        setLoading(false)
+        return
+      }
+
+      // ✅ Make API call with validated numeric ID
+      console.log(`📤 Fetching movie from API with ID: ${validatedId}`)
+      const data = await movieService.getById(validatedId)
+      
+      // ✅ Verify response is valid
+      if (!data) {
+        throw new Error('Server returned empty movie data')
+      }
+
+      console.log('✅ Movie data received:', { id: data.id, title: data.title })
+      setMovie(data)
     } catch (err) {
-      const errorMsg = err.response?.data?.message || err.message || 'Failed to load movie'
-      setError(errorMsg)
-      console.error('Movie loading error:', err)
+      // ✅ Comprehensive error handling
+      const errorMessage = 
+        err.response?.data?.message ||  // Backend error message
+        err.message ||                   // Axios/JS error message
+        'Failed to load movie'           // Fallback
+
+      const statusCode = err.response?.status
+
+      const userFriendlyError = statusCode === 404
+        ? 'Movie not found. It may have been removed.'
+        : statusCode === 400
+        ? 'Invalid request. Please try again.'
+        : statusCode >= 500
+        ? 'Server error. Please try again later.'
+        : errorMessage
+
+      console.error('🔴 Error loading movie:', {
+        status: statusCode,
+        message: errorMessage,
+        fullError: err,
+      })
+
+      setError(userFriendlyError)
     } finally {
       setLoading(false)
     }
   }
 
   const handleBookTickets = () => {
-    if (movie) {
+    if (movie && movie.id) {
       setBookingMovie(movie)
-      navigate(`/theatres/${id}`)
+      navigate(`/theatres/${movie.id}`)
+    } else {
+      console.error('❌ Cannot book: missing movie data')
+      setError('Movie data is incomplete. Please refresh the page.')
     }
   }
 
@@ -52,8 +122,8 @@ function MovieDetailsPage() {
     return <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-950 text-slate-500 dark:text-slate-400 text-xl font-medium">Movie not found</div>
   }
 
-  const bannerUrl = `https://picsum.photos/seed/${id}banner/1920/600`
-  const posterUrl = movie.posterUrl || `https://picsum.photos/seed/${id}/400/600`
+  const bannerUrl = `https://picsum.photos/seed/${movieId}banner/1920/600`
+  const posterUrl = movie.posterUrl || `https://picsum.photos/seed/${movieId}/400/600`
 
   return (
     <div className="bg-slate-50 dark:bg-slate-950 min-h-screen pb-20 transition-colors duration-300">

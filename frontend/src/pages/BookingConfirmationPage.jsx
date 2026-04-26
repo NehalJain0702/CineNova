@@ -21,6 +21,12 @@ export function BookingConfirmationPage() {
     try {
       setLoading(true)
       setError(null)
+      // Validate bookingId before making API call
+      if (!bookingId || bookingId === 'undefined' || bookingId === 'null') {
+        setError('Invalid booking ID')
+        setLoading(false)
+        return
+      }
       const data = await bookingService.getBookingDetails(bookingId)
       setBooking(data || {})
     } catch (err) {

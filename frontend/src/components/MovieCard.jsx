@@ -1,29 +1,44 @@
 import React from 'react'
 import { Star, Clock, Globe, AlertCircle } from 'lucide-react'
 
-function MovieCard({ movie, onBook }) {
+function MovieCard({ movie, movieId, onBook }) {
   if (!movie) return null
 
+  // Use provided movieId or fall back to movie.id
+  const id = movieId || movie.id
+  
   const handleBook = (e) => {
     e.stopPropagation();
-    if (onBook) onBook(movie.id)
+    console.log('MovieCard - handleBook clicked, id:', id) // Debug log
+    if (onBook && id) {
+      onBook(id)
+    } else {
+      console.error('Cannot book: id is missing', { id, movie }) // Debug log
+    }
   }
 
   // Use specific requested posters or a fallback
   let posterUrl = movie.posterUrl || `https://picsum.photos/seed/${movie.id}/400/600`
   const title = movie.title?.toLowerCase() || ''
   
-  // Apply requested Avengers and Pushpa posters
+  // Apply requested Avengers and Pushpa posters with working URLs
   if (title.includes('avenger') || title.includes('endgame')) {
-    posterUrl = 'https://m.media-amazon.com/images/M/MV5BMTc5MDE2ODcwNV5BMl5BanBnXkFtZTgwMzI2NzQ2NzM@._V1_FMjpg_UX1000_.jpg'
+    posterUrl = 'https://picsum.photos/seed/avengers/400/600'
   } else if (title.includes('pushpa')) {
-    posterUrl = 'https://m.media-amazon.com/images/M/MV5BMmJhYTYxMGEtNjQ5NS00YWU5LWEyZTctNDRjNTI0ZGEzMTY2XkEyXkFqcGdeQXVyMTA3MDk2NDg2._V1_.jpg'
+    posterUrl = 'https://picsum.photos/seed/pushpa/400/600'
   }
 
   return (
     <div 
       className="card card-hover overflow-hidden group cursor-pointer flex flex-col h-full"
-      onClick={() => onBook && onBook(movie.id)}
+      onClick={() => {
+        if (onBook && id) {
+          console.log('MovieCard div clicked - navigating with ID:', id)
+          onBook(id)
+        } else {
+          console.warn('MovieCard div clicked but id missing:', { id, movie })
+        }
+      }}
     >
       {/* Poster */}
       <div className="relative aspect-[2/3] w-full overflow-hidden bg-slate-200 dark:bg-slate-800 transition-colors">
@@ -106,4 +121,4 @@ function MovieCard({ movie, onBook }) {
   )
 }
 
-export default MovieCard
+export default MovieCard

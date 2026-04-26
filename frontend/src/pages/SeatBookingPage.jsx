@@ -23,6 +23,12 @@ export function SeatBookingPage() {
     try {
       setLoading(true)
       setError(null)
+      // Validate showId before making API call
+      if (!showId || showId === 'undefined' || showId === 'null') {
+        setError('Invalid show ID')
+        setLoading(false)
+        return
+      }
       const data = await seatService.getByShow(showId)
       setSeats(data || [])
     } catch (err) {

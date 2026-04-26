@@ -1,10 +1,6 @@
 package com.Nehal.BookMyShow.Config;
 
-import jakarta.servlet.Filter;
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.ServletRequest;
-import jakarta.servlet.ServletResponse;
+import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Configuration;
@@ -25,12 +21,15 @@ public class WebConfig implements Filter {
         HttpServletResponse response = (HttpServletResponse) res;
 
         String origin = request.getHeader("Origin");
-        if (origin != null && (origin.endsWith(".vercel.app") || origin.startsWith("http://localhost"))) {
+
+        // 🔥 Always allow your frontend
+        if (origin != null) {
             response.setHeader("Access-Control-Allow-Origin", origin);
         }
 
         response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
         response.setHeader("Access-Control-Allow-Headers", "*");
+        response.setHeader("Access-Control-Allow-Credentials", "true");
         response.setHeader("Access-Control-Max-Age", "3600");
 
         if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {

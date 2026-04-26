@@ -24,6 +24,12 @@ export function TheatreSelectionPage() {
     try {
       setLoading(true)
       setError(null)
+      // Validate movieId before making API call
+      if (!movieId || movieId === 'undefined' || movieId === 'null') {
+        setError('Invalid movie ID')
+        setLoading(false)
+        return
+      }
       const data = await theatreService.getByMovieId(movieId)
       setTheatres(data || [])
     } catch (err) {

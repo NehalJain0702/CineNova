@@ -58,7 +58,7 @@ function AppContent() {
 
           {/* Protected Routes */}
           <Route
-            path="/movie/:movieId"
+            path="/movies/:movieId"
             element={
               <ProtectedRoute>
                 <MovieDetailsPage />
