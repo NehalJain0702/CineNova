@@ -13,7 +13,7 @@ function MovieDetailsPage() {
   const [error, setError] = useState(null)
   const [showTrailer, setShowTrailer] = useState(false)
   const { setMovie: setBookingMovie } = useBooking()
-}
+
   /**
    * Convert and validate movieId from URL params
    * ⚠️ IMPORTANT: useParams() returns strings, not numbers
@@ -40,9 +40,7 @@ function MovieDetailsPage() {
   useEffect(() => {
     loadMovie()
   }, [movieId])
-  const loadMovie = async () => {
-  console.log('🔍 movieId from URL:', movieId, typeof movieId)
-  console.log('🔍 Full URL:', window.location.href)
+  
   // ... rest of function
   const loadMovie = async () => {
     try {
