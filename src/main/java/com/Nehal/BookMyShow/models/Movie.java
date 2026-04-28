@@ -31,7 +31,7 @@ public class Movie extends BaseModel {
     @Enumerated(EnumType.STRING)
     @ElementCollection
     private List<Language> languages;
-
+    private String movieURL;
     private int duration;
 
     private String genre;
@@ -105,5 +105,13 @@ public class Movie extends BaseModel {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getMovieURL() {
+        return movieURL;
+    }
+
+    public void setMovieURL(String movieURL) {
+        this.movieURL = movieURL;
     }
 }

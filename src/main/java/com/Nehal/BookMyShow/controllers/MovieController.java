@@ -138,6 +138,7 @@ public class MovieController {
         );
         m1.setId(1);
         m1.setStatus("Now Showing");
+        m1.setMovieURL("https://s.yimg.com/fz/api/res/1.2/6DECN186p0luSH9dNV5u0A--~C/YXBwaWQ9c3JjaGRkO2ZpPWZpbGw7aD00MTI7cHhvZmY9NTA7cHlvZmY9MTAwO3E9ODA7c3M9MTt3PTM4OA--/https://i.pinimg.com/736x/21/d6/21/21d62106e83e8bddfa41024dfc195356.jpg");
         Movie m2 = new Movie(
                 "Pushpa",
                 List.of(Language.Hindi),
@@ -149,6 +150,7 @@ public class MovieController {
         );
         m2.setId(2);
         m2.setStatus("Now Showing");
+        m2.setMovieURL("https://in.images.search.yahoo.com/search/images;_ylt=Awrx.8cj9fBpUQIAEVK7HAx.;_ylu=Y29sbwNzZzMEcG9zAzEEdnRpZAMEc2VjA3BpdnM-?p=pushpa+images&fr2=piv-web&type=E210IN885G0&fr=mcafee");
         movies.add(m1);
         movies.add(m2);
 
