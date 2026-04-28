@@ -1,7 +1,6 @@
 package com.Nehal.BookMyShow.models;
 
 import jakarta.persistence.*;
-import lombok.*;
 
 import java.util.List;
 
@@ -31,7 +30,7 @@ public class Movie extends BaseModel {
     @Enumerated(EnumType.STRING)
     @ElementCollection
     private List<Language> languages;
-    private String movieURL;
+    private String posterURL;
     private int duration;
 
     private String genre;
@@ -107,11 +106,11 @@ public class Movie extends BaseModel {
         this.status = status;
     }
 
-    public String getMovieURL() {
-        return movieURL;
+    public String getPosterURL() {
+        return posterURL;
     }
 
-    public void setMovieURL(String movieURL) {
-        this.movieURL = movieURL;
+    public void setPosterURL(String posterURL) {
+        this.posterURL = posterURL;
     }
 }

@@ -9,7 +9,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Movie Controller - REST endpoints for movie operations
@@ -138,7 +137,7 @@ public class MovieController {
         );
         m1.setId(1);
         m1.setStatus("Now Showing");
-        m1.setMovieURL("https://i.pinimg.com/736x/21/d6/21/21d62106e83e8bddfa41024dfc195356.jpg");
+        m1.setPosterURL("https://i.pinimg.com/736x/21/d6/21/21d62106e83e8bddfa41024dfc195356.jpg");
         Movie m2 = new Movie(
                 "Pushpa",
                 List.of(Language.Hindi),
@@ -150,7 +149,7 @@ public class MovieController {
         );
         m2.setId(2);
         m2.setStatus("Now Showing");
-        m2.setMovieURL("https://i.pinimg.com/736x/54/6c/6c/546c6c9c1a2c6d4d0d1b7f1b3d6b7d2d.jpg");
+        m2.setPosterURL("https://i.pinimg.com/736x/54/6c/6c/546c6c9c1a2c6d4d0d1b7f1b3d6b7d2d.jpg");
         movies.add(m1);
         movies.add(m2);
 
