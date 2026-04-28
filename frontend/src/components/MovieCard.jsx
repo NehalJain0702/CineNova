@@ -23,7 +23,7 @@ function MovieCard({ movie, movieId, onBook }) {
   
   // Apply requested Avengers and Pushpa posters with working URLs
   if (title.includes('avenger') || title.includes('endgame')) {
-    posterUrl = 'https://picsum.photos/seed/avengers/400/600'
+    posterUrl = 'https://s.yimg.com/fz/api/res/1.2/6DECN186p0luSH9dNV5u0A--~C/YXBwaWQ9c3JjaGRkO2ZpPWZpbGw7aD00MTI7cHhvZmY9NTA7cHlvZmY9MTAwO3E9ODA7c3M9MTt3PTM4OA--/https://i.pinimg.com/736x/21/d6/21/21d62106e83e8bddfa41024dfc195356.jpg'
   } else if (title.includes('pushpa')) {
     posterUrl = 'https://picsum.photos/seed/pushpa/400/600'
   }
