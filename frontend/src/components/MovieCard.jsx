@@ -9,7 +9,7 @@ function MovieCard({ movie, movieId, onBook }) {
   
   const handleBook = (e) => {
     e.stopPropagation();
-    console.log('MovieCard - handleBook clicked, id:', id) // Debug log
+    consoleq.log('MovieCard - handleBook clicked, id:', id) // Debug log
     if (onBook && id) {
       onBook(id)
     } else {

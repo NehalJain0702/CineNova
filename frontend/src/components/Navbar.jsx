@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { Menu, X, LogOut, Search, Moon, Sun } from 'lucide-react'
 import { useAuth } from '../contexts/AuthContext'
 import { useTheme } from '../hooks/useTheme'
-
+import logo from "./img.png";
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false)
   const { user, logout } = useAuth()
@@ -25,15 +25,17 @@ export function Navbar() {
   }
 
   return (
-    <nav className="sticky top-0 z-50 border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-950/80 backdrop-blur-lg transition-colors duration-300">
+    <nav className="sticky top-0 z-50 dark:bg-slate-950/80 backdrop-blur-lg transition-colors duration-300">
       <div className="app-container px-4">
         <div className="flex justify-between items-center h-20">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-3 group">
-            <div className="w-10 h-10 bg-rose-600 rounded-xl flex items-center justify-center shadow-lg shadow-rose-600/20 group-hover:bg-rose-500 transition-colors">
-              <span className="text-white font-black text-xl tracking-tighter">B</span>
-            </div>
-            <span className="font-extrabold text-2xl hidden sm:inline text-slate-900 dark:text-white tracking-tight">
+          <Link to="/" className="flex flex-col items-center gap-0 no-underline">
+           <img
+                  src={logo}
+                  alt="Logo"
+                  className="w-15 h-15  object-cover"
+                />
+            <span className="font-extrabold text-1xl hidden sm:inline text-slate-900 dark:text-white tracking-tight no-underline">
               CineNova
             </span>
           </Link>
@@ -41,14 +43,14 @@ export function Navbar() {
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center justify-between gap-6 flex-1 px-8">
             {/* Search */}
-            <form onSubmit={handleSearchSubmit} className="relative flex-1 max-w-md">
+            <form  onSubmit={handleSearchSubmit} className="relative w-full max-w-md">
               <input
                 type="text"
                 name="search"
                 placeholder="Search movies, events, plays..."
-                className="input pr-12 w-full bg-slate-100/60 dark:bg-slate-900/60 focus:bg-white dark:focus:bg-slate-900"
+                className="input   w-full   py-3 pl-4 bg-slate-100/60 dark:bg-slate-900/60 focus:bg-white dark:focus:bg-slate-900"
               />
-              <button type="submit" className="absolute right-3 top-1/2 -translate-y-1/2 p-1.5 hover:bg-slate-200 dark:hover:bg-slate-800 rounded-md transition-colors">
+              <button type="submit" className="absolute right-0 top-1/2 -translate-y-1/2 border-gray-300 h-full px-3 bg-white rounded-r-md">
                 <Search className="w-4 h-4 text-slate-500 dark:text-slate-400" />
               </button>
             </form>
@@ -57,7 +59,7 @@ export function Navbar() {
             <div className="flex items-center gap-5 flex-shrink-0">
               <button
                 onClick={toggleTheme}
-                className="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 transition-colors"
+                className="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-800  transition-colors"
                 title="Toggle Theme"
               >
                 {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
@@ -82,7 +84,7 @@ export function Navbar() {
               ) : (
                 <Link
                   to="/auth"
-                  className="btn-primary"
+                  className="  bg-rose-600 text-black px-4 py-2 rounded-lg transition-colors no-underline"
                 >
                   Sign In
                 </Link>

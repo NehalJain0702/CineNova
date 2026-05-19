@@ -1,6 +1,6 @@
 import React from 'react'
 import { Github, Twitter, Instagram } from 'lucide-react'
-
+import logo from "./img.png";
 export function Footer() {
   return (
     <footer className="bg-gray-900 text-gray-300 py-8 mt-12">
@@ -9,9 +9,11 @@ export function Footer() {
           {/* Branding */}
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 bg-rose-600 rounded-full flex items-center justify-center">
-                <span className="text-white font-bold">B</span>
-              </div>
+              <img
+                                src={logo}
+                                alt="Logo"
+                                className="w-15 h-15  object-cover"
+                              />
               <span className="font-bold text-lg text-white">CineNova</span>
             </div>
             <p className="text-sm">Your favorite movie booking platform. Book tickets instantly.</p>

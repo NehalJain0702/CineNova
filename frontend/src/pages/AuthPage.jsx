@@ -5,7 +5,7 @@ import { authService } from '../services/apiService'
 import { handleApiError, ERROR_MESSAGES } from '../utils/errorHandler'
 import { isValidEmail, isValidPassword } from '../utils/helpers'
 import { Eye, EyeOff } from 'lucide-react'
-
+import logo from "../components/img.png"
 export function AuthPage() {
   const [mode, setMode] = useState('login') // 'login' or 'signup'
   const [loading, setLoading] = useState(false)
@@ -92,16 +92,36 @@ export function AuthPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-rose-600 to-pink-600 flex items-center justify-center py-12 px-4">
-      <div className="w-full max-w-md">
+    <div className="h-auto  bg-gradient-to-br from-black via-gray-900 to-blue-900 flex justify-center py-12 px-4">
+      <div className='ml-10 opacity-0 animate-[float_4s_ease-in-out_infinite] w-fit flex flex-col items-center gap-5'>
+            <img src="https://tse1.mm.bing.net/th/id/OIP.axr85VETKpqcMVHBu2tblgHaK-?pid=Api&P=0&h=180" alt="picture" />
+            <img src="https://tse4.mm.bing.net/th/id/OIP.tztSa_W2yWRsdGOycWr07AHaLH?pid=Api&P=0&h=180" />
+            <img src="https://tse3.mm.bing.net/th/id/OIP.yXg9NB5bs1ELdFSZd2P8hAHaLH?pid=Api&P=0&h=180" alt="picture" />
+
+      </div>
+      <div className='opacity-0 animate-[float_4s_ease-in-out_infinite] w-fit p-5 flex flex-col items-center gap-5'>
+            <img src="https://tse2.mm.bing.net/th/id/OIP.OXhfO-ecLhBG3hfUkoPG2AHaLH?pid=Api&P=0&h=180" alt="picture" />
+            <img src="https://tse4.mm.bing.net/th/id/OIP.4jan6dJmsliV_27nlC99ZAHaLH?pid=Api&P=0&h=180" alt="picture" />
+            <img src="https://tse4.mm.bing.net/th/id/OIP.4V1uKf-rT8My5lNu0b2HbwHaLG?pid=Api&P=0&h=180" alt="picture" />
+
+      </div>
+      <div className='opacity-0 animate-[float_4s_ease-in-out_infinite] w-fit flex flex-col items-center gap-5'>
+            <img src="https://tse1.mm.bing.net/th/id/OIP.KtLnZJrRsGjc3QKAi1kMpwHaK-?pid=Api&P=0&h=180" alt="picture" />
+            <img src="https://tse4.mm.bing.net/th/id/OIP.sX3uyefJuMZ0GQR-yP8EzwAAAA?pid=Api&P=0&h=180" alt="picture" />
+            <img src="https://tse2.mm.bing.net/th/id/OIP.tKyQlW6KgA8XOfBtf2wOugHaLH?pid=Api&P=0&h=180" alt="picture" />
+
+      </div>
+      <div className="backdrop-blur-lg w-full max-w-md p-5">
         {/* Card */}
-        <div className="bg-white rounded-lg shadow-lg p-8">
+        <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-2xl p-8 text-white">
           {/* Logo */}
           <div className="text-center mb-8">
-            <div className="w-12 h-12 bg-rose-600 rounded-full flex items-center justify-center mx-auto mb-4">
-              <span className="text-white font-bold text-xl">C</span>
-            </div>
-            <h1 className="text-2xl font-bold text-gray-900">CineNova</h1>
+           <img
+                             src={logo}
+                             alt="Logo"
+                             className="w-15 h-15  object-cover"
+                           />
+            <h1 className="text-2xl font-bold text-white">CineNova</h1>
           </div>
 
           {/* Tabs */}
@@ -110,7 +130,7 @@ export function AuthPage() {
               onClick={() => toggleMode()}
               className={`flex-1 py-3 font-semibold text-center transition ${
                 mode === 'login'
-                  ? 'text-rose-600 border-b-2 border-rose-600'
+                  ? 'text-white border-b-2 border-black'
                   : 'text-gray-600 hover:text-gray-800'
               }`}
             >
@@ -120,7 +140,7 @@ export function AuthPage() {
               onClick={() => toggleMode()}
               className={`flex-1 py-3 font-semibold text-center transition ${
                 mode === 'signup'
-                  ? 'text-rose-600 border-b-2 border-rose-600'
+                  ? 'text-white border-b-2 border-black'  
                   : 'text-gray-600 hover:text-gray-800'
               }`}
             >
@@ -129,7 +149,7 @@ export function AuthPage() {
           </div>
 
           {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-4 pr-6">
             {/* Name (Sign Up Only) */}
             {mode === 'signup' && (
               <div>
@@ -142,7 +162,7 @@ export function AuthPage() {
                   value={formData.name}
                   onChange={handleChange}
                   placeholder="Enter your full name"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-rose-600"
+                  className="w-full px-4 py-2 bg-gray-500 border border-gray-300 placeholder-white rounded-lg focus:outline-none focus:border-rose-600"
                 />
               </div>
             )}
@@ -158,7 +178,7 @@ export function AuthPage() {
                 value={formData.email}
                 onChange={handleChange}
                 placeholder="Enter your email"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-rose-600"
+                className=" w-full px-4  py-2 border bg-gray-500 border-gray-300  placeholder-white rounded-lg focus:outline-none focus:border-rose-600"
               />
             </div>
 
@@ -174,12 +194,12 @@ export function AuthPage() {
                   value={formData.password}
                   onChange={handleChange}
                   placeholder="Enter your password"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-rose-600"
+                  className="w-full px-4 py-2 border  bg-gray-500 border-gray-300  placeholder-white rounded-lg focus:outline-none focus:border-rose-600"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                  className="absolute right-0 top-1/2 transform -translate-y-1/2 text-gray-200 hover:text-gray-500"
                 >
                   {showPassword ? (
                     <EyeOff className="w-5 h-5" />
@@ -201,7 +221,7 @@ export function AuthPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-rose-600 text-white py-2 rounded-lg hover:bg-rose-700 transition font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
+              className=" flex justify-center items-center w-40 mx-auto bg-rose-600 text-white py-2 rounded-lg hover:bg-rose-700 transition font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? 'Loading...' : mode === 'login' ? 'Sign In' : 'Create Account'}
             </button>

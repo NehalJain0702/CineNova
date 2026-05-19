@@ -63,7 +63,7 @@ function HomePage() {
   }
 
   return (
-    <div className="app-container page">
+    <div className="app-container page bg bg-gradient-to-br from-black via-gray-900 to-blue-900">
       <div className="flex items-center gap-3 mb-8">
         <div className="p-3 bg-rose-600/20 rounded-xl">
           <Film className="w-8 h-8 text-rose-500" />
