@@ -19,31 +19,26 @@
   }
 
   body {
-    @apply bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-200 antialiased transition-colors duration-300;
-  }
-
-  /* Light mode radial gradients */
-  body:not(.dark) {
-    background-image:
-      radial-gradient(1200px 600px at 10% -20%, rgba(244, 63, 94, 0.16), transparent 60%),
-      radial-gradient(900px 500px at 95% 0%, rgba(59, 130, 246, 0.14), transparent 55%),
-      radial-gradient(900px 500px at 50% 120%, rgba(16, 185, 129, 0.10), transparent 55%);
-  }
-
-  /* Dark mode radial gradients */
-  body.dark {
-    background-image:
-      radial-gradient(1200px 600px at 10% -20%, rgba(244, 63, 94, 0.08), transparent 60%),
-      radial-gradient(900px 500px at 95% 0%, rgba(59, 130, 246, 0.05), transparent 55%),
-      radial-gradient(900px 500px at 50% 120%, rgba(16, 185, 129, 0.03), transparent 55%);
+    @apply bg-slate-950 text-slate-100 antialiased transition-colors duration-300;
+    background: radial-gradient(150% 100% at 50% 0%, #2e1371 0%, #0d082b 100%) no-repeat fixed;
   }
 
   a {
-    @apply text-slate-900/90 dark:text-slate-200/90 hover:text-slate-900 dark:hover:text-white transition-colors;
+    @apply text-slate-400 hover:text-white transition-colors no-underline;
+  }
+
+  button {
+    background-color: transparent;
+    border-style: none;
+    padding: 0;
+    margin: 0;
+    color: inherit;
+    font-family: inherit;
+    cursor: pointer;
   }
 
   ::selection {
-    background: rgba(244, 63, 94, 0.4);
+    background: rgba(236, 72, 153, 0.3);
   }
 }
 
@@ -61,45 +56,44 @@
   }
 
   .card {
-    @apply rounded-2xl border border-slate-200 bg-white/80 dark:border-slate-800 dark:bg-slate-900/60 shadow-lg backdrop-blur-md transition-colors duration-300;
+    @apply rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl shadow-2xl transition-all duration-300;
   }
 
   .card-hover {
-    @apply transition duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-rose-500/10 dark:hover:border-slate-700 hover:border-slate-300;
+    @apply transition-all duration-300 hover:border-white/20 hover:bg-white/8 hover:scale-[1.02] hover:shadow-[0_8px_30px_rgb(0,0,0,0.3)];
   }
 
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold transition duration-300;
-    @apply bg-rose-600 text-white hover:bg-rose-500 shadow-lg shadow-rose-600/20 hover:shadow-rose-500/40;
-    @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-950 focus-visible:ring-offset-white;
-    @apply disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-rose-600 disabled:hover:shadow-rose-600/20;
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-xs font-bold uppercase tracking-wider transition-all duration-300 whitespace-nowrap;
+    @apply bg-gradient-to-r from-pink-500 to-violet-600 text-white hover:from-pink-600 hover:to-violet-700;
+    @apply shadow-lg shadow-pink-500/20 hover:shadow-pink-500/35;
+    @apply focus:outline-none focus:ring-2 focus:ring-pink-400 focus:ring-offset-2 dark:focus:ring-offset-slate-950;
+    @apply disabled:opacity-40 disabled:cursor-not-allowed;
   }
 
   .btn-secondary {
-    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold transition duration-300;
-    @apply bg-slate-100 text-slate-800 border border-slate-200 hover:bg-slate-200 hover:border-slate-300;
-    @apply dark:bg-slate-800 dark:text-white dark:border-slate-700 dark:hover:bg-slate-700 dark:hover:border-slate-600;
-    @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-950 focus-visible:ring-offset-white;
-    @apply disabled:opacity-50 disabled:cursor-not-allowed;
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-xs font-bold uppercase tracking-wider transition-all duration-300 whitespace-nowrap;
+    @apply bg-white/10 text-white border border-white/10 hover:bg-white/20;
+    @apply focus:outline-none focus:ring-2 focus:ring-white/50 focus:ring-offset-2 dark:focus:ring-offset-slate-950;
+    @apply disabled:opacity-40 disabled:cursor-not-allowed;
   }
 
   .btn-ghost {
-    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold transition duration-300;
-    @apply bg-transparent hover:bg-slate-100 text-slate-600 hover:text-slate-900;
-    @apply dark:hover:bg-slate-800 dark:text-slate-300 dark:hover:text-white;
-    @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-950 focus-visible:ring-offset-white;
-    @apply disabled:opacity-50 disabled:cursor-not-allowed;
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-xs font-bold uppercase tracking-wider transition-all duration-300 whitespace-nowrap;
+    @apply bg-transparent hover:bg-white/5 text-slate-400 hover:text-white;
+    @apply focus:outline-none;
+    @apply disabled:opacity-40 disabled:cursor-not-allowed;
   }
 
   .input {
-    @apply w-full rounded-xl border border-slate-200 bg-white/80 dark:border-slate-700 dark:bg-slate-900/80 px-4 py-3 text-sm text-slate-900 dark:text-slate-100;
-    @apply placeholder:text-slate-400 dark:placeholder:text-slate-500;
-    @apply focus:outline-none focus:ring-2 focus:ring-rose-500/50 focus:border-rose-500/50;
-    @apply transition-all duration-200;
+    @apply w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3.5 text-sm text-white;
+    @apply placeholder:text-slate-400;
+    @apply focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400;
+    @apply transition-all duration-300;
   }
 
   .chip {
-    @apply inline-flex items-center rounded-full border border-slate-200 bg-white/80 dark:border-slate-700 dark:bg-slate-800/80 px-3 py-1 text-xs font-semibold text-slate-600 dark:text-slate-300 backdrop-blur-sm transition-colors duration-300;
+    @apply inline-flex items-center rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-semibold text-slate-300 transition-colors duration-200;
   }
 }
 
@@ -109,7 +103,16 @@
   }
   
   .glass-panel {
-    @apply bg-white/80 dark:bg-slate-900/70 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/60 shadow-2xl transition-colors duration-300;
+    @apply bg-white/5 backdrop-blur-xl border border-white/10 shadow-2xl transition-all duration-300;
+  }
+
+  /* Ticket cutout visual elements */
+  .ticket-cutout-left {
+    @apply absolute -left-3 top-1/2 -translate-y-1/2 w-6 h-6 bg-[#0c082b] rounded-full border border-white/10 z-10;
+  }
+  
+  .ticket-cutout-right {
+    @apply absolute -right-3 top-1/2 -translate-y-1/2 w-6 h-6 bg-[#0c082b] rounded-full border border-white/10 z-10;
   }
 }
 

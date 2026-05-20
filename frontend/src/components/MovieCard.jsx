@@ -9,7 +9,7 @@ function MovieCard({ movie, movieId, onBook }) {
   
   const handleBook = (e) => {
     e.stopPropagation();
-    consoleq.log('MovieCard - handleBook clicked, id:', id) // Debug log
+    console.log('MovieCard - handleBook clicked, id:', id) // Debug log
     if (onBook && id) {
       onBook(id)
     } else {
@@ -30,92 +30,64 @@ function MovieCard({ movie, movieId, onBook }) {
 
   return (
     <div 
-      className="card card-hover overflow-hidden group cursor-pointer flex flex-col h-full"
+      className="card card-hover p-3 overflow-hidden group cursor-pointer flex flex-col h-full bg-white/5 border border-white/10 backdrop-blur-md hover:border-pink-500/30 rounded-[28px]"
       onClick={() => {
         if (onBook && id) {
-          console.log('MovieCard div clicked - navigating with ID:', id)
           onBook(id)
-        } else {
-          console.warn('MovieCard div clicked but id missing:', { id, movie })
         }
       }}
     >
       {/* Poster */}
-      <div className="relative aspect-[2/3] w-full overflow-hidden bg-slate-200 dark:bg-slate-800 transition-colors">
+      <div className="relative aspect-[2/3] w-full overflow-hidden bg-slate-900 rounded-2xl">
         <img
           src={posterUrl}
           alt={movie.title}
-          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 ease-out"
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
         />
         
-        {/* Overlay gradient */}
-        <div className="absolute inset-0 bg-gradient-to-t from-white via-white/20 dark:from-slate-950 dark:via-slate-900/20 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-300" />
+        {/* Rating Badge */}
+        {movie.rating && (
+          <div className="absolute bottom-2 left-2 bg-[#0c082b]/80 backdrop-blur-md text-white px-2 py-1 rounded-xl text-[10px] font-bold flex items-center gap-1 shadow-md border border-white/5">
+            <Star className="w-3 h-3 fill-pink-500 text-pink-500" />
+            <span>{movie.rating}</span>
+          </div>
+        )}
 
-        {/* Top Badges */}
+        {/* Certification Badge */}
         {movie.certification && (
-          <div className="absolute top-3 right-3 bg-rose-600/90 backdrop-blur-sm text-white px-2 py-1 rounded text-xs font-bold tracking-wider shadow-lg">
+          <div className="absolute top-2 right-2 bg-pink-500/80 backdrop-blur-md text-white px-2 py-0.5 rounded-lg text-[9px] font-extrabold tracking-wider shadow-sm uppercase border border-white/10">
             {movie.certification}
           </div>
         )}
-
-        {/* Hover Book Button Overlay */}
-        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 backdrop-blur-[2px]">
-          <button
-            onClick={handleBook}
-            className="bg-rose-600 hover:bg-rose-500 text-white font-bold py-3 px-6 rounded-xl shadow-2xl shadow-rose-600/50 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300"
-          >
-            Book Tickets
-          </button>
-        </div>
       </div>
 
       {/* Details */}
-      <div className="p-5 flex-1 flex flex-col z-10">
-        <h3 className="font-bold text-lg leading-tight mb-2 text-slate-900 dark:text-slate-100 group-hover:text-rose-600 dark:group-hover:text-rose-400 transition-colors duration-300 line-clamp-1" title={movie.title}>
-          {movie.title}
-        </h3>
-
-        {/* Rating */}
-        {movie.rating && (
-          <div className="flex items-center gap-1.5 mb-3">
-            <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
-            <span className="text-sm font-semibold text-slate-700 dark:text-slate-200">{movie.rating}/10</span>
-            {movie.reviewCount && (
-              <span className="text-xs text-slate-500 font-medium">({movie.reviewCount.toLocaleString()} votes)</span>
-            )}
-          </div>
-        )}
-
-        {/* Metadata */}
-        <div className="flex flex-wrap gap-x-4 gap-y-2 mb-4 text-xs font-medium text-slate-500 dark:text-slate-400 mt-auto">
-          {movie.duration && (
-            <div className="flex items-center gap-1.5 bg-slate-100 dark:bg-slate-800/50 px-2 py-1 rounded-md transition-colors">
-              <Clock className="w-3.5 h-3.5 text-slate-500" />
-              <span>{movie.duration}m</span>
-            </div>
-          )}
-          {(movie.language || (movie.languages && movie.languages[0])) && (
-            <div className="flex items-center gap-1.5 bg-slate-100 dark:bg-slate-800/50 px-2 py-1 rounded-md transition-colors">
-              <Globe className="w-3.5 h-3.5 text-slate-500" />
-              <span>{movie.language || movie.languages?.[0]}</span>
-            </div>
+      <div className="p-3 flex-1 flex flex-col justify-between pt-4">
+        <div>
+          <h3 className="font-extrabold text-sm leading-tight text-white group-hover:text-pink-400 transition-colors duration-200 line-clamp-1 mb-1" title={movie.title}>
+            {movie.title}
+          </h3>
+          
+          {/* Genre */}
+          {movie.genre && (
+            <p className="text-[11px] font-medium text-slate-400 truncate mb-3">{movie.genre}</p>
           )}
         </div>
 
-        {/* Genre */}
-        {movie.genre && (
-          <div className="mb-4">
-            <p className="text-xs font-medium text-slate-500 truncate">{movie.genre}</p>
-          </div>
-        )}
-
-        {/* Mobile Book Button (visible only on small screens or when not hovering) */}
-        <button
-          onClick={handleBook}
-          className="btn-primary w-full mt-auto sm:hidden group-hover:hidden"
-        >
-          Book Now
-        </button>
+        <div className="flex items-center justify-between mt-auto pt-2 border-t border-white/5">
+          {movie.language && (
+            <span className="text-[9px] uppercase font-bold text-cyan-400 bg-cyan-400/10 border border-cyan-400/20 px-2 py-0.5 rounded-md">
+              {movie.language}
+            </span>
+          )}
+          
+          {movie.duration && (
+            <span className="text-[10px] font-medium text-slate-400 flex items-center gap-1">
+              <Clock className="w-3 h-3 text-slate-500" />
+              {movie.duration}m
+            </span>
+          )}
+        </div>
       </div>
     </div>
   )

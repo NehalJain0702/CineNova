@@ -18,8 +18,11 @@ function HomePage() {
   const [movies, setMovies] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [selectedCategory, setSelectedCategory] = useState('All')
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
+
+  const categories = ['All', 'Action', 'Drama', 'Sci-Fi', 'Comedy', 'Thriller', 'Adventure']
 
   useEffect(() => {
     fetchMovies()
@@ -47,7 +50,12 @@ function HomePage() {
         console.warn('Skipping movie without valid ID:', movie)
         return false
       }
-      return movie.title?.toLowerCase().includes(searchQuery)
+      
+      const matchesSearch = movie.title?.toLowerCase().includes(searchQuery)
+      const matchesCategory = selectedCategory === 'All' || 
+        movie.genre?.toLowerCase().includes(selectedCategory.toLowerCase())
+
+      return matchesSearch && matchesCategory
     })
 
   const handleBook = (id) => {
@@ -59,19 +67,40 @@ function HomePage() {
   }
 
   if (error) {
-    return <div className="app-container page min-h-[70vh] flex items-center justify-center"><ErrorMessage message={error} onRetry={fetchMovies} /></div>
+    return (
+      <div className="app-container page min-h-[70vh] flex items-center justify-center">
+        <ErrorMessage message={error} onRetry={fetchMovies} />
+      </div>
+    )
   }
 
   return (
-    <div className="app-container page bg bg-gradient-to-br from-black via-gray-900 to-blue-900">
-      <div className="flex items-center gap-3 mb-8">
-        <div className="p-3 bg-rose-600/20 rounded-xl">
-          <Film className="w-8 h-8 text-rose-500" />
-        </div>
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white transition-colors duration-300">Recommended Movies</h1>
-          <p className="text-slate-600 dark:text-slate-400 mt-1 transition-colors duration-300">Discover the latest blockbusters and indie gems.</p>
-        </div>
+    <div className="app-container page py-12">
+      {/* Header and Title */}
+      <div className="text-center mb-10 max-w-2xl mx-auto">
+        <h1 className="text-4xl font-black text-white tracking-tight uppercase mb-3">
+          Choose Movie
+        </h1>
+        <p className="text-sm font-semibold text-slate-400 tracking-wider">
+          Find the best cinematic experiences showing today
+        </p>
+      </div>
+
+      {/* Categories Horizontal Bar */}
+      <div className="flex items-center gap-3 overflow-x-auto pb-4 mb-10 justify-start sm:justify-center scrollbar-none">
+        {categories.map((category) => (
+          <button
+            key={category}
+            onClick={() => setSelectedCategory(category)}
+            className={`px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 border ${
+              selectedCategory === category
+                ? 'bg-gradient-to-r from-pink-500 to-violet-600 text-white border-transparent shadow-lg shadow-pink-500/20 scale-105'
+                : 'bg-white/5 text-slate-400 border-white/10 hover:bg-white/10 hover:text-white'
+            }`}
+          >
+            {category}
+          </button>
+        ))}
       </div>
 
       {loading ? (
@@ -95,8 +124,8 @@ function HomePage() {
           })}
         </div>
       ) : (
-        <div className="text-center py-20 bg-white/60 dark:bg-slate-900/50 rounded-2xl border border-slate-200/80 dark:border-slate-800 transition-colors duration-300 shadow-sm">
-          <p className="text-xl text-slate-600 dark:text-slate-400 font-medium">No movies found matching "{searchQuery}"</p>
+        <div className="text-center py-20 bg-white/5 border border-white/10 rounded-3xl backdrop-blur-md">
+          <p className="text-lg text-slate-400 font-bold">No movies found in this category</p>
         </div>
       )}
     </div>

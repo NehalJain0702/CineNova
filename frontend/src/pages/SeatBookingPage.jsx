@@ -73,7 +73,7 @@ export function SeatBookingPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center">
         <LoadingSpinner text="Loading seat map..." />
       </div>
     )
@@ -81,7 +81,7 @@ export function SeatBookingPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center">
         <ErrorMessage message={error} onRetry={loadSeats} />
       </div>
     )
@@ -101,95 +101,91 @@ export function SeatBookingPage() {
 
   const getSeatColor = (seat) => {
     if (selectedSeats.find(s => s.id === seat.id)) {
-      return 'bg-rose-600 text-white'
+      return 'bg-cyan-400 text-[#0d082b] border-transparent shadow-[0_0_15px_rgba(6,182,212,0.8)] scale-105'
     }
     
     switch (seat.status) {
       case 'AVAILABLE':
-        return seat.seatType === 'PREMIUM' ? 'bg-purple-300 hover:bg-purple-400' : 'bg-green-300 hover:bg-green-400'
+        return seat.seatType === 'PREMIUM' 
+          ? 'bg-transparent border border-pink-500/40 text-pink-300 hover:border-pink-500 hover:bg-pink-500/10' 
+          : 'bg-transparent border border-white/20 text-slate-300 hover:border-cyan-400/50 hover:bg-white/5'
       case 'BLOCKED':
-        return 'bg-yellow-400 cursor-not-allowed'
       case 'BOOKED':
-        return 'bg-gray-400 cursor-not-allowed'
+        return 'bg-white/5 border border-white/5 text-slate-600 cursor-not-allowed opacity-30'
       default:
-        return 'bg-gray-200'
+        return 'bg-white/5 border border-white/10 text-slate-400'
     }
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="container mx-auto px-4">
+    <div className="min-h-screen py-12">
+      <div className="app-container px-4">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">Select Your Seats</h1>
-          <p className="text-gray-600">
-            {booking.theatre?.name} • {booking.show?.showTime || 'Show Time'}
+        <div className="mb-10 text-center max-w-2xl mx-auto">
+          <h1 className="text-3xl md:text-4xl font-black text-white mb-2 tracking-tight uppercase">Select Your Seats</h1>
+          <p className="text-slate-400 font-semibold text-sm">
+            {booking.theatre?.name} • <span className="text-cyan-400 font-bold">{booking.show?.showTime || 'Show Time'}</span>
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
           {/* Seat Map */}
           <div className="lg:col-span-2">
-            <div className="bg-white rounded-lg shadow-md p-8">
-              {/* Error Message */}
-              {error && (
-                <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
-                  <p className="text-red-800 text-sm">{error}</p>
-                </div>
-              )}
-              <div className="text-center mb-8">
-                <div className="inline-block border-4 border-gray-900 w-full py-2 mb-4 relative">
-                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white px-4 py-1 text-xs font-bold">
-                    SCREEN
-                  </div>
-                </div>
+            <div className="card p-6 sm:p-10">
+              {/* Curved Glowing Screen Representation */}
+              <div className="relative w-4/5 mx-auto mb-16 text-center">
+                <div className="w-full h-3 border-t-2 border-cyan-400/80 rounded-[50%] shadow-[0_-3px_15px_rgba(6,182,212,0.6)]" />
+                <div className="absolute top-2 left-0 right-0 h-14 bg-gradient-to-b from-cyan-400/15 to-transparent pointer-events-none filter blur-md" />
+                <p className="text-[10px] uppercase font-black tracking-widest text-cyan-400/60 mt-4">Screen</p>
               </div>
 
               {/* Seats Grid */}
-              <div className="space-y-3 mb-8">
-                {sortedRows.map(row => (
-                  <div key={row} className="flex justify-center items-center gap-2">
-                    {/* Row Label */}
-                    <span className="w-8 text-center font-bold text-gray-600">{row}</span>
+              <div className="space-y-4 mb-10 overflow-x-auto py-2">
+                <div className="min-w-[480px] space-y-4">
+                  {sortedRows.map(row => (
+                    <div key={row} className="flex justify-center items-center gap-4">
+                      {/* Row Label */}
+                      <span className="w-6 text-center font-bold text-xs text-slate-500">{row}</span>
 
-                    {/* Seats */}
-                    <div className="flex gap-2 flex-wrap justify-center">
-                      {seatsByRow[row].map(seat => (
-                        <button
-                          key={seat.id}
-                          onClick={() => handleSeatClick(seat)}
-                          disabled={seat.status === 'BOOKED' || seat.status === 'BLOCKED'}
-                          className={`w-8 h-8 rounded text-xs font-semibold transition ${getSeatColor(seat)}`}
-                          title={`${seat.row}${seat.seatNumber} - ${seat.price}`}
-                        >
-                          {seat.seatNumber}
-                        </button>
-                      ))}
+                      {/* Seats */}
+                      <div className="flex gap-2 flex-wrap justify-center">
+                        {seatsByRow[row].map(seat => (
+                          <button
+                            key={seat.id}
+                            onClick={() => handleSeatClick(seat)}
+                            disabled={seat.status === 'BOOKED' || seat.status === 'BLOCKED'}
+                            className={`w-8 h-8 rounded-xl text-xs font-bold transition-all duration-300 flex items-center justify-center ${getSeatColor(seat)}`}
+                            title={`${seat.row}${seat.seatNumber} - ${seat.price}`}
+                          >
+                            {seat.seatNumber}
+                          </button>
+                        ))}
+                      </div>
+
+                      {/* Row Label */}
+                      <span className="w-6 text-center font-bold text-xs text-slate-500">{row}</span>
                     </div>
-
-                    {/* Row Label */}
-                    <span className="w-8 text-center font-bold text-gray-600">{row}</span>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
 
               {/* Legend */}
-              <div className="border-t border-gray-200 pt-6">
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm">
+              <div className="border-t border-white/10 pt-6">
+                <div className="flex flex-wrap items-center justify-center gap-6 text-[11px] font-bold text-slate-400 uppercase tracking-wider">
                   <div className="flex items-center gap-2">
-                    <div className="w-4 h-4 bg-green-300 rounded" />
+                    <div className="w-3.5 h-3.5 bg-transparent border border-white/20 rounded-md" />
                     <span>Regular</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <div className="w-4 h-4 bg-purple-300 rounded" />
+                    <div className="w-3.5 h-3.5 bg-transparent border border-pink-500/40 rounded-md" />
                     <span>Premium</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <div className="w-4 h-4 bg-rose-600 rounded" />
+                    <div className="w-3.5 h-3.5 bg-cyan-400 rounded-md shadow-[0_0_8px_rgba(6,182,212,0.8)]" />
                     <span>Selected</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <div className="w-4 h-4 bg-gray-400 rounded" />
+                    <div className="w-3.5 h-3.5 bg-white/5 border border-white/5 rounded-md opacity-30" />
                     <span>Booked</span>
                   </div>
                 </div>
@@ -197,27 +193,26 @@ export function SeatBookingPage() {
             </div>
           </div>
 
-          {/* Booking Summary */}
+          {/* Booking Summary Card */}
           <div className="lg:col-span-1">
-            <div className="bg-white rounded-lg shadow-md p-6 sticky top-20">
-              <h3 className="text-xl font-bold text-gray-900 mb-4">Booking Summary</h3>
+            <div className="card p-6 sticky top-24">
+              <h3 className="text-lg font-black text-white mb-5 tracking-wide uppercase border-b border-white/10 pb-3">Booking Summary</h3>
 
               {/* Selected Seats */}
-              <div className="mb-6 pb-4 border-b border-gray-200">
-                <p className="font-semibold text-gray-700 mb-2">Selected Seats:</p>
+              <div className="mb-6 pb-5 border-b border-white/10">
+                <p className="font-extrabold text-[10px] uppercase tracking-wider text-slate-400 mb-3">Selected Seats</p>
                 {selectedSeats.length === 0 ? (
-                  <p className="text-gray-600 text-sm">No seats selected</p>
+                  <p className="text-slate-500 text-sm font-semibold">Select seats on the map</p>
                 ) : (
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-wrap gap-2 animate-in fade-in duration-200">
                     {selectedSeats
                       .sort((a, b) => `${a.row}${a.seatNumber}`.localeCompare(`${b.row}${b.seatNumber}`))
                       .map(seat => (
                         <span
                           key={seat.id}
-                          className="px-2 py-1 bg-rose-100 text-rose-800 rounded text-xs font-semibold"
+                          className="px-3 py-1 bg-white/5 text-white rounded-xl text-xs font-extrabold tracking-tight border border-white/10"
                         >
-                          {seat.row}
-                          {seat.seatNumber}
+                          {seat.row}-{seat.seatNumber}
                         </span>
                       ))}
                   </div>
@@ -225,36 +220,32 @@ export function SeatBookingPage() {
               </div>
 
               {/* Price Breakdown */}
-              <div className="space-y-3 mb-6 pb-4 border-b border-gray-200">
-                <div className="flex justify-between text-sm">
-                  <span className="text-gray-600">Ticket Price ({selectedSeats.length})</span>
-                  <span className="font-semibold">{formatCurrency(totalPrice)}</span>
+              <div className="space-y-3 mb-6 pb-5 border-b border-white/10">
+                <div className="flex justify-between text-sm font-semibold">
+                  <span className="text-slate-400">Tickets ({selectedSeats.length})</span>
+                  <span className="text-white">{formatCurrency(totalPrice)}</span>
                 </div>
-                <div className="flex justify-between text-sm">
-                  <span className="text-gray-600">Convenience Fee (2%)</span>
-                  <span className="font-semibold">{formatCurrency(convenienceFee)}</span>
+                <div className="flex justify-between text-sm font-semibold">
+                  <span className="text-slate-400">Convenience Fee</span>
+                  <span className="text-white">{formatCurrency(convenienceFee)}</span>
                 </div>
               </div>
 
               {/* Grand Total */}
-              <div className="mb-6 p-4 bg-gray-50 rounded-lg">
-                <div className="flex justify-between items-center mb-2">
-                  <span className="text-gray-700 font-semibold">Total Amount</span>
-                  <span className="text-2xl font-bold text-rose-600">
+              <div className="mb-6 p-4 bg-white/5 border border-white/10 rounded-2xl">
+                <div className="flex justify-between items-center">
+                  <span className="text-slate-400 font-extrabold text-[10px] uppercase tracking-wider">Total Payable</span>
+                  <span className="text-2xl font-black text-pink-500">
                     {formatCurrency(grandTotal)}
                   </span>
                 </div>
               </div>
 
-              {selectedSeats.length > 0 && (
-                <InfoMessage message={`${selectedSeats.length} seat(s) selected. Total: ${formatCurrency(grandTotal)}`} />
-              )}
-
               {/* Proceed Button */}
               <button
                 onClick={handleProceedToPayment}
                 disabled={selectedSeats.length === 0}
-                className="w-full bg-rose-600 text-white py-3 rounded-lg hover:bg-rose-700 transition font-bold disabled:opacity-50 disabled:cursor-not-allowed"
+                className="btn-primary w-full py-3.5 justify-center text-sm shadow-lg shadow-pink-500/20"
               >
                 Proceed to Payment
               </button>

@@ -92,56 +92,41 @@ export function AuthPage() {
   }
 
   return (
-    <div className="h-auto  bg-gradient-to-br from-black via-gray-900 to-blue-900 flex justify-center py-12 px-4">
-      <div className='ml-10 opacity-0 animate-[float_4s_ease-in-out_infinite] w-fit flex flex-col items-center gap-5'>
-            <img src="https://tse1.mm.bing.net/th/id/OIP.axr85VETKpqcMVHBu2tblgHaK-?pid=Api&P=0&h=180" alt="picture" />
-            <img src="https://tse4.mm.bing.net/th/id/OIP.tztSa_W2yWRsdGOycWr07AHaLH?pid=Api&P=0&h=180" />
-            <img src="https://tse3.mm.bing.net/th/id/OIP.yXg9NB5bs1ELdFSZd2P8hAHaLH?pid=Api&P=0&h=180" alt="picture" />
-
-      </div>
-      <div className='opacity-0 animate-[float_4s_ease-in-out_infinite] w-fit p-5 flex flex-col items-center gap-5'>
-            <img src="https://tse2.mm.bing.net/th/id/OIP.OXhfO-ecLhBG3hfUkoPG2AHaLH?pid=Api&P=0&h=180" alt="picture" />
-            <img src="https://tse4.mm.bing.net/th/id/OIP.4jan6dJmsliV_27nlC99ZAHaLH?pid=Api&P=0&h=180" alt="picture" />
-            <img src="https://tse4.mm.bing.net/th/id/OIP.4V1uKf-rT8My5lNu0b2HbwHaLG?pid=Api&P=0&h=180" alt="picture" />
-
-      </div>
-      <div className='opacity-0 animate-[float_4s_ease-in-out_infinite] w-fit flex flex-col items-center gap-5'>
-            <img src="https://tse1.mm.bing.net/th/id/OIP.KtLnZJrRsGjc3QKAi1kMpwHaK-?pid=Api&P=0&h=180" alt="picture" />
-            <img src="https://tse4.mm.bing.net/th/id/OIP.sX3uyefJuMZ0GQR-yP8EzwAAAA?pid=Api&P=0&h=180" alt="picture" />
-            <img src="https://tse2.mm.bing.net/th/id/OIP.tKyQlW6KgA8XOfBtf2wOugHaLH?pid=Api&P=0&h=180" alt="picture" />
-
-      </div>
-      <div className="backdrop-blur-lg w-full max-w-md p-5">
+    <div className="min-h-screen flex items-center justify-center py-16 px-4">
+      <div className="w-full max-w-md">
         {/* Card */}
-        <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-2xl p-8 text-white">
-          {/* Logo */}
-          <div className="text-center mb-8">
-           <img
-                             src={logo}
-                             alt="Logo"
-                             className="w-15 h-15  object-cover"
-                           />
-            <h1 className="text-2xl font-bold text-white">CineNova</h1>
+        <div className="card p-8 sm:p-10 relative overflow-hidden">
+          {/* Logo & Branding */}
+          <div className="text-center mb-8 flex flex-col items-center">
+            {logo && (
+              <img
+                src={logo}
+                alt="CineNova"
+                className="w-12 h-12 object-contain mb-3 filter brightness-110"
+              />
+            )}
+            <h1 className="text-2xl font-black text-white tracking-tight uppercase">CineNova</h1>
+            <p className="text-xs text-slate-400 mt-1 font-semibold">Your personal ticket to premium entertainment</p>
           </div>
 
-          {/* Tabs */}
-          <div className="flex gap-4 mb-8 border-b border-gray-200">
+          {/* Form Tabs */}
+          <div className="flex gap-6 mb-8 border-b border-white/10">
             <button
               onClick={() => toggleMode()}
-              className={`flex-1 py-3 font-semibold text-center transition ${
+              className={`flex-1 pb-3 text-sm font-black uppercase tracking-wider text-center border-b-2 transition-all duration-300 ${
                 mode === 'login'
-                  ? 'text-white border-b-2 border-black'
-                  : 'text-gray-600 hover:text-gray-800'
+                  ? 'text-white border-pink-500'
+                  : 'text-slate-400 hover:text-white border-transparent'
               }`}
             >
               Sign In
             </button>
             <button
               onClick={() => toggleMode()}
-              className={`flex-1 py-3 font-semibold text-center transition ${
+              className={`flex-1 pb-3 text-sm font-black uppercase tracking-wider text-center border-b-2 transition-all duration-300 ${
                 mode === 'signup'
-                  ? 'text-white border-b-2 border-black'  
-                  : 'text-gray-600 hover:text-gray-800'
+                  ? 'text-white border-pink-500'  
+                  : 'text-slate-400 hover:text-white border-transparent'
               }`}
             >
               Sign Up
@@ -149,11 +134,11 @@ export function AuthPage() {
           </div>
 
           {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-4 pr-6">
+          <form onSubmit={handleSubmit} className="space-y-5">
             {/* Name (Sign Up Only) */}
             {mode === 'signup' && (
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+              <div className="animate-in fade-in duration-200">
+                <label className="text-[10px] font-extrabold text-slate-400 tracking-wider uppercase mb-1.5 block">
                   Name
                 </label>
                 <input
@@ -162,29 +147,31 @@ export function AuthPage() {
                   value={formData.name}
                   onChange={handleChange}
                   placeholder="Enter your full name"
-                  className="w-full px-4 py-2 bg-gray-500 border border-gray-300 placeholder-white rounded-lg focus:outline-none focus:border-rose-600"
+                  className="input"
+                  disabled={loading}
                 />
               </div>
             )}
 
             {/* Email */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Email
+              <label className="text-[10px] font-extrabold text-slate-400 tracking-wider uppercase mb-1.5 block">
+                Email Address
               </label>
               <input
                 type="email"
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                placeholder="Enter your email"
-                className=" w-full px-4  py-2 border bg-gray-500 border-gray-300  placeholder-white rounded-lg focus:outline-none focus:border-rose-600"
+                placeholder="you@example.com"
+                className="input"
+                disabled={loading}
               />
             </div>
 
             {/* Password */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="text-[10px] font-extrabold text-slate-400 tracking-wider uppercase mb-1.5 block">
                 Password
               </label>
               <div className="relative">
@@ -193,18 +180,19 @@ export function AuthPage() {
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
-                  placeholder="Enter your password"
-                  className="w-full px-4 py-2 border  bg-gray-500 border-gray-300  placeholder-white rounded-lg focus:outline-none focus:border-rose-600"
+                  placeholder="••••••••"
+                  className="input pr-12"
+                  disabled={loading}
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-0 top-1/2 transform -translate-y-1/2 text-gray-200 hover:text-gray-500"
+                  className="absolute right-4 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-white transition-colors"
                 >
                   {showPassword ? (
-                    <EyeOff className="w-5 h-5" />
+                    <EyeOff className="w-4 h-4" />
                   ) : (
-                    <Eye className="w-5 h-5" />
+                    <Eye className="w-4 h-4" />
                   )}
                 </button>
               </div>
@@ -212,8 +200,8 @@ export function AuthPage() {
 
             {/* Error Message */}
             {error && (
-              <div className="p-3 bg-red-50 border border-red-200 rounded-lg">
-                <p className="text-red-700 text-sm">{error}</p>
+              <div className="p-3 bg-red-500/10 border border-red-500/20 rounded-xl animate-in shake duration-300">
+                <p className="text-red-400 text-xs font-bold">{error}</p>
               </div>
             )}
 
@@ -221,21 +209,21 @@ export function AuthPage() {
             <button
               type="submit"
               disabled={loading}
-              className=" flex justify-center items-center w-40 mx-auto bg-rose-600 text-white py-2 rounded-lg hover:bg-rose-700 transition font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
+              className="btn-primary w-full py-3.5 justify-center text-sm shadow-lg shadow-pink-500/20 mt-2"
             >
-              {loading ? 'Loading...' : mode === 'login' ? 'Sign In' : 'Create Account'}
+              {loading ? 'Processing...' : mode === 'login' ? 'Sign In' : 'Create Account'}
             </button>
           </form>
 
           {/* Demo Credentials */}
-          <div className="mt-6 pt-6 border-t border-gray-200">
-            <p className="text-xs text-gray-600 text-center mb-2">
-              Demo credentials (for testing):
+          <div className="mt-8 pt-6 border-t border-white/10">
+            <p className="text-[9px] font-black text-slate-400 text-center uppercase tracking-widest mb-3">
+              Demo Credentials (Testing)
             </p>
-            <p className="text-xs text-gray-600 text-center">
-              Email: user@example.com<br />
-              Password: password123
-            </p>
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-3 text-xs text-slate-400 font-semibold space-y-1 text-center">
+              <div><span className="font-bold text-white">Email:</span> user@example.com</div>
+              <div><span className="font-bold text-white">Password:</span> password123</div>
+            </div>
           </div>
         </div>
       </div>

@@ -25,17 +25,17 @@ export function Navbar() {
   }
 
   return (
-    <nav className="sticky top-0 z-50 dark:bg-slate-950/80 backdrop-blur-lg transition-colors duration-300">
+    <nav className="sticky top-0 z-50 bg-[#0c082b]/60 border-b border-white/5 backdrop-blur-xl transition-all duration-300">
       <div className="app-container px-4">
-        <div className="flex justify-between items-center h-20">
+        <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link to="/" className="flex flex-col items-center gap-0 no-underline">
+          <Link to="/" className="flex items-center gap-3 no-underline group">
            <img
                   src={logo}
                   alt="Logo"
-                  className="w-15 h-15  object-cover"
+                  className="w-8 h-8 object-cover rounded-md group-hover:scale-105 transition-transform duration-200"
                 />
-            <span className="font-extrabold text-1xl hidden sm:inline text-slate-900 dark:text-white tracking-tight no-underline">
+            <span className="font-black text-lg hidden sm:inline text-white uppercase tracking-wider">
               CineNova
             </span>
           </Link>
@@ -43,49 +43,46 @@ export function Navbar() {
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center justify-between gap-6 flex-1 px-8">
             {/* Search */}
-            <form  onSubmit={handleSearchSubmit} className="relative w-full max-w-md">
+            <form onSubmit={handleSearchSubmit} className="relative w-full max-w-sm ml-auto">
               <input
                 type="text"
                 name="search"
-                placeholder="Search movies, events, plays..."
-                className="input   w-full   py-3 pl-4 bg-slate-100/60 dark:bg-slate-900/60 focus:bg-white dark:focus:bg-slate-900"
+                placeholder="Search movies..."
+                className="input pl-10 py-2 w-full"
               />
-              <button type="submit" className="absolute right-0 top-1/2 -translate-y-1/2 border-gray-300 h-full px-3 bg-white rounded-r-md">
-                <Search className="w-4 h-4 text-slate-500 dark:text-slate-400" />
+              <button type="submit" className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white transition-colors">
+                <Search className="w-4 h-4" />
               </button>
             </form>
 
             {/* Theme Toggle & User Menu */}
-            <div className="flex items-center gap-5 flex-shrink-0">
+            <div className="flex items-center gap-4 flex-shrink-0">
               <button
                 onClick={toggleTheme}
-                className="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-800  transition-colors"
+                className="p-2 rounded-full text-slate-400 hover:bg-white/10 transition-colors"
                 title="Toggle Theme"
               >
-                {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+                {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
               </button>
 
               {user ? (
                 <>
-                  <div className="flex items-center gap-3 bg-slate-100 dark:bg-slate-900/50 pl-2 pr-4 py-1.5 rounded-full border border-slate-200 dark:border-slate-800">
-                    <div className="w-7 h-7 bg-indigo-500 rounded-full flex items-center justify-center text-white text-xs font-bold">
+                  <div className="flex items-center gap-2 pl-1 pr-3 py-1 rounded-full border border-white/10 bg-white/5">
+                    <div className="w-6 h-6 bg-pink-500 rounded-full flex items-center justify-center text-white text-xs font-black">
                       {(user.name || user.email || 'U').charAt(0).toUpperCase()}
                     </div>
-                    <span className="text-slate-700 dark:text-slate-300 font-medium text-sm">{user.email || user.name}</span>
+                    <span className="text-white font-extrabold text-xs uppercase tracking-wider">{user.name?.split(' ')[0] || user.email?.split('@')[0]}</span>
                   </div>
                   <button
                     onClick={handleLogout}
-                    className="btn-ghost text-slate-600 dark:text-slate-400 hover:text-rose-500 dark:hover:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-500/10"
+                    className="p-2 text-slate-400 hover:text-pink-500 hover:bg-white/5 rounded-full transition-colors"
                     title="Logout"
                   >
-                    <LogOut className="w-5 h-5" />
+                    <LogOut className="w-4 h-4" />
                   </button>
                 </>
               ) : (
-                <Link
-                  to="/auth"
-                  className="  bg-rose-600 text-black px-4 py-2 rounded-lg transition-colors no-underline"
-                >
+                <Link to="/auth" className="btn-primary">
                   Sign In
                 </Link>
               )}
@@ -96,12 +93,12 @@ export function Navbar() {
           <div className="md:hidden flex items-center gap-2">
             <button
               onClick={toggleTheme}
-              className="p-2 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-800 rounded-lg transition-colors"
+              className="p-2 text-slate-400 hover:bg-white/10 rounded-lg transition-colors"
             >
               {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
             </button>
             <button
-              className="p-2 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-800 rounded-lg transition-colors"
+              className="p-2 text-slate-400 hover:bg-white/10 rounded-lg transition-colors"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
               {isMenuOpen ? (
@@ -114,40 +111,37 @@ export function Navbar() {
 
         {/* Mobile Menu */}
         {isMenuOpen && (
-          <div className="md:hidden py-4 px-2 space-y-4 border-t border-slate-200 dark:border-slate-800 mt-2 bg-white/95 dark:bg-slate-900/95 rounded-2xl mb-4 shadow-xl">
-            <form onSubmit={handleSearchSubmit} className="relative">
+          <div className="md:hidden absolute top-[100%] left-0 right-0 p-4 border-b border-white/10 bg-[#0c082b]/95 shadow-lg backdrop-blur-xl">
+            <form onSubmit={handleSearchSubmit} className="relative mb-4">
               <input
                 type="text"
                 name="search"
                 placeholder="Search movies..."
-                className="input w-full"
+                className="input pl-10"
               />
-              <button type="submit" className="absolute right-3 top-1/2 -translate-y-1/2 p-2">
+              <button type="submit" className="absolute left-3 top-1/2 -translate-y-1/2">
                 <Search className="w-4 h-4 text-slate-400" />
               </button>
             </form>
 
             {user ? (
-              <div className="space-y-4 pt-2 border-t border-slate-200 dark:border-slate-800">
-                <div className="flex items-center gap-3 px-2">
-                   <div className="w-8 h-8 bg-indigo-500 rounded-full flex items-center justify-center text-white text-sm font-bold">
+              <div className="space-y-4 pt-4 border-t border-white/10">
+                <div className="flex items-center gap-3">
+                   <div className="w-8 h-8 bg-pink-500 rounded-full flex items-center justify-center text-white text-sm font-black">
                       {(user.name || user.email || 'U').charAt(0).toUpperCase()}
                     </div>
-                  <p className="text-slate-700 dark:text-slate-200 font-medium">{user.email || user.name}</p>
+                  <p className="text-white font-bold">{user.email || user.name}</p>
                 </div>
                 <button
                   onClick={handleLogout}
-                  className="btn-secondary w-full border-rose-500/20 text-rose-400 hover:bg-rose-500/10"
+                  className="btn-secondary w-full justify-center text-pink-500 hover:border-pink-500/30"
                 >
                   <LogOut className="w-4 h-4" />
                   Logout
                 </button>
               </div>
             ) : (
-              <Link
-                to="/auth"
-                className="btn-primary w-full"
-              >
+              <Link to="/auth" className="btn-primary w-full justify-center">
                 Sign In
               </Link>
             )}
