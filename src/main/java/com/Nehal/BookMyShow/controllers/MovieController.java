@@ -2,6 +2,8 @@ package com.Nehal.BookMyShow.controllers;
 
 import com.Nehal.BookMyShow.models.Movie;
 import com.Nehal.BookMyShow.models.Language;
+import com.Nehal.BookMyShow.repositories.MovieRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,16 +25,15 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/movies")
 public class MovieController {
-
+    @Autowired
+    private MovieRepository movieRepository;
     /**
      * Get all movies
      * @return List of all movies
      */
     @GetMapping
     public ResponseEntity<List<Movie>> getMovies() {
-        List<Movie> movies = getDummyMovies();
-        System.out.println("✅ GET /api/movies - Returning " + movies.size() + " movies");
-        return ResponseEntity.ok(movies);
+        return ResponseEntity.ok(movieRepository.findAll());
     }
 
     /**
@@ -59,10 +60,11 @@ public class MovieController {
         }
 
         // ✅ Find movie
-        Movie movie = getDummyMovies().stream()
-                .filter(m -> m.getId() == id)
-                .findFirst()
-                .orElse(null);
+        Movie movie = movieRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResponseStatusException(
+                                HttpStatus.NOT_FOUND,
+                                "Movie not found"));
 
         // ✅ Return 404 if not found
         if (movie == null) {
@@ -95,9 +97,11 @@ public class MovieController {
         }
 
         String searchTerm = q.toLowerCase().trim();
-        List<Movie> results = getDummyMovies().stream()
-                .filter(m -> m.getTitle().toLowerCase().contains(searchTerm) ||
-                           m.getGenre().toLowerCase().contains(searchTerm))
+        List<Movie> results = movieRepository.findAll()
+                .stream()
+                .filter(m ->
+                        m.getTitle().toLowerCase().contains(searchTerm) ||
+                                m.getGenre().toLowerCase().contains(searchTerm))
                 .toList();
 
         System.out.println("✅ Found " + results.size() + " matching movies");
@@ -111,12 +115,19 @@ public class MovieController {
     @GetMapping("/upcoming")
     public ResponseEntity<List<Movie>> getUpcomingMovies() {
         System.out.println("✅ GET /api/movies/upcoming");
-        List<Movie> upcomingMovies = getDummyMovies().stream()
-                .filter(m -> "Upcoming".equals(m.getStatus()))
+        List<Movie> upcomingMovies =  movieRepository.findAll()
+                .stream()
+                .filter(m -> "Upcoming".equalsIgnoreCase(m.getStatus()))
                 .toList();
-        return ResponseEntity.ok(upcomingMovies);
     }
+    @PostMapping
+    public ResponseEntity<Movie> addMovie(
+            @RequestBody Movie movie) {
 
+        Movie savedMovie = movieRepository.save(movie);
+
+        return ResponseEntity.ok(savedMovie);
+    }
     // ==================== HELPER METHODS ====================
 
     /**
