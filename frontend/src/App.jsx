@@ -7,6 +7,8 @@ import { Footer } from './components/Footer'
 import { useAuth } from './contexts/AuthContext'
 import { LoadingSpinner } from './components/LoadingAndError'
 
+
+import AddMovie from "./pages/AddMovie";
 // Pages
 import  HomePage  from './pages/HomePage'
 import { AuthPage } from './pages/AuthPage'
@@ -34,7 +36,16 @@ function ProtectedRoute({ children }) {
 
   return children
 }
-
+function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/admin/add-movie" element={<AddMovie />} />
+      </Routes>
+    </BrowserRouter>
+  )
+}
 // App Content
 function AppContent() {
   const { loading } = useAuth()
