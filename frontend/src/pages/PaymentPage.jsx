@@ -85,22 +85,51 @@ export function PaymentPage() {
 
       // Step 2: Process payment
       const paymentResponse = await paymentService.initiatePayment(grandTotal)
-
       if (paymentResponse?.orderId) {
-        // Step 3: Verify payment with Razorpay order details
-        const verifyResponse = await paymentService.verifyPayment({
-          razorpay_order_id: paymentResponse.orderId,
-          razorpay_payment_id: paymentResponse.orderId, // Using orderId as payment ID for demo
-        })
 
-        if (verifyResponse?.status === 'SUCCESS' || verifyResponse?.paymentStatus === 'COMPLETED') {
-          // Payment successful
-          await bookingService.confirmBooking(bookingId)
-          resetBooking()
-          navigate(`/confirmation/${bookingId}`)
-        } else {
-          setError('Payment verification failed. Please try again.')
+    const options = {
+        key: "rzp_test_SwL03XTmh32J9b",
+        amount: paymentResponse.amount,
+        currency: "INR",
+        order_id: paymentResponse.orderId,
+
+        name: "CineNova",
+        description: "Movie Ticket Booking",
+
+        handler: async function (response) {
+
+            const verifyResponse =
+                await paymentService.verifyPayment({
+                    razorpay_payment_id:
+                        response.razorpay_payment_id,
+
+                    razorpay_order_id:
+                        response.razorpay_order_id,
+
+                    razorpay_signature:
+                        response.razorpay_signature
+                });
+
+            if (
+                verifyResponse.status === "SUCCESS" ||
+                verifyResponse.paymentStatus === "COMPLETED"
+            ) {
+
+                await bookingService.confirmBooking(
+                    bookingId
+                );
+
+                resetBooking();
+
+                navigate(`/confirmation/${bookingId}`);
+            }
         }
+    };
+
+    const rzp = new window.Razorpay(options);
+
+    rzp.open();
+
       } else {
         setError('Payment initiation failed. Please try again.')
       }
