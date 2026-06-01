@@ -7,8 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -123,9 +128,27 @@ public class MovieController {
     }
     @PostMapping
     public ResponseEntity<Movie> addMovie(
-            @RequestBody Movie movie) {
+            @RequestParam String title,
+            @RequestParam String genre,
+            @RequestParam MultipartFile poster)
+            throws IOException {
 
-        Movie savedMovie = movieRepository.save(movie);
+        String fileName = System.currentTimeMillis()
+                + "_" + poster.getOriginalFilename();
+
+        Path path = Paths.get("uploads/" + fileName);
+
+        Files.createDirectories(path.getParent());
+        Files.write(path, poster.getBytes());
+
+        Movie movie = new Movie();
+
+        movie.setTitle(title);
+        movie.setGenre(genre);
+        movie.setPosterURL("/uploads/" + fileName);
+
+        Movie savedMovie =
+                movieRepository.save(movie);
 
         return ResponseEntity.ok(savedMovie);
     }
