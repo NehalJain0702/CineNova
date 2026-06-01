@@ -119,6 +119,7 @@ public class MovieController {
                 .stream()
                 .filter(m -> "Upcoming".equalsIgnoreCase(m.getStatus()))
                 .toList();
+        return ResponseEntity.ok(upcomingMovies);
     }
     @PostMapping
     public ResponseEntity<Movie> addMovie(
