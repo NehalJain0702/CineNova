@@ -352,21 +352,15 @@ export const bookingService = {
 
 // ==================== PAYMENTS ====================
 export const paymentService = {
-  initiatePayment: async (bookingId, amount, paymentMethod) => {
+  initiatePayment: async (amount) => {
     const response = await axiosInstance.post('/payments', {
-      bookingId,
       amount,
-      paymentMethod,
     })
     return response.data
   },
 
-  verifyPayment: async (bookingId, paymentId, signature) => {
-    const response = await axiosInstance.post('/payments/verify', {
-      bookingId,
-      paymentId,
-      signature,
-    })
+  verifyPayment: async (paymentData) => {
+    const response = await axiosInstance.post('/payments/verify', paymentData)
     return response.data
   },
 

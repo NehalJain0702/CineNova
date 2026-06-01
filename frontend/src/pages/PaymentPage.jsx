@@ -84,19 +84,14 @@ export function PaymentPage() {
       }
 
       // Step 2: Process payment
-      const paymentResponse = await paymentService.initiatePayment(
-        bookingId,
-        grandTotal,
-        paymentMethod
-      )
+      const paymentResponse = await paymentService.initiatePayment(grandTotal)
 
-      if (paymentResponse?.paymentId) {
-        // Step 3: Verify payment
-        const verifyResponse = await paymentService.verifyPayment(
-          bookingId,
-          paymentResponse.paymentId,
-          paymentResponse.signature || ''
-        )
+      if (paymentResponse?.orderId) {
+        // Step 3: Verify payment with Razorpay order details
+        const verifyResponse = await paymentService.verifyPayment({
+          razorpay_order_id: paymentResponse.orderId,
+          razorpay_payment_id: paymentResponse.orderId, // Using orderId as payment ID for demo
+        })
 
         if (verifyResponse?.status === 'SUCCESS' || verifyResponse?.paymentStatus === 'COMPLETED') {
           // Payment successful
