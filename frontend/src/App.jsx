@@ -36,16 +36,7 @@ function ProtectedRoute({ children }) {
 
   return children
 }
-function App() {
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/admin/add-movie" element={<AddMovie />} />
-      </Routes>
-    </BrowserRouter>
-  )
-}
+
 // App Content
 function AppContent() {
   const { loading } = useAuth()
@@ -108,9 +99,17 @@ function AppContent() {
               </ProtectedRoute>
             }
           />
-
+         
           {/* Fallback Route */}
           <Route path="*" element={<Navigate to="/" replace />} />
+          <Route
+    path="/admin/add-movie"
+    element={
+      <ProtectedRoute>
+        <AddMovie />
+      </ProtectedRoute>
+    }
+  />
         </Routes>
       </main>
       <Footer />
