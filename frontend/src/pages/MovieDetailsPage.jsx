@@ -133,7 +133,9 @@ function MovieDetailsPage() {
   }
 
   const bannerUrl = `https://picsum.photos/seed/${movieId}banner/1920/600`
-  const posterUrl = movie.posterUrl || `https://picsum.photos/seed/${movieId}/400/600`
+  const posterUrl = movie.posterURL
+  ? `http://localhost:8080${movie.posterURL}`
+  : `https://picsum.photos/seed/${movieId}/400/600`
 
   return (
     <div className="min-h-screen pb-20">

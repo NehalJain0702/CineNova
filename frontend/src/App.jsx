@@ -104,11 +104,8 @@ function AppContent() {
           <Route path="*" element={<Navigate to="/" replace />} />
           <Route
     path="/admin/add-movie"
-    element={
-      <ProtectedRoute>
-        <AddMovie />
-      </ProtectedRoute>
-    }
+  element={<AddMovie />}
+    
   />
         </Routes>
       </main>
