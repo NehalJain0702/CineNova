@@ -18,9 +18,10 @@ function MovieCard({ movie, movieId, onBook }) {
   }
 
   // Use specific requested posters or a fallback
-  let posterUrl = movie.posterURL
-  ? `http://localhost:8080${movie.posterURL}`
-  : `https://picsum.photos/seed/${movie.id}/400/600`
+let posterUrl =
+  movie.posterURL?.trim()
+    ? movie.posterURL
+    : `https://picsum.photos/seed/${movie.id}/400/600`;
   const title = movie.title?.toLowerCase() || ''
   
   // Apply requested Avengers and Pushpa posters with working URLs

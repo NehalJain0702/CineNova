@@ -3,6 +3,8 @@ package com.Nehal.BookMyShow.controllers;
 import com.Nehal.BookMyShow.models.Movie;
 import com.Nehal.BookMyShow.models.Language;
 import com.Nehal.BookMyShow.repositories.MovieRepository;
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +34,8 @@ import java.util.List;
 public class MovieController {
     @Autowired
     private MovieRepository movieRepository;
+    @Autowired
+    private Cloudinary cloudinary;
     /**
      * Get all movies
      * @return List of all movies
@@ -133,19 +137,22 @@ public class MovieController {
             @RequestParam MultipartFile poster)
             throws IOException {
 
-        String fileName = System.currentTimeMillis()
-                + "_" + poster.getOriginalFilename();
+        var uploadResult =
+                cloudinary.uploader().upload(
+                        poster.getBytes(),
+                        ObjectUtils.emptyMap()
+                );
 
-        Path path = Paths.get("uploads/" + fileName);
+        String imageUrl =
+                uploadResult.get("secure_url").toString();
 
-        Files.createDirectories(path.getParent());
-        Files.write(path, poster.getBytes());
+
 
         Movie movie = new Movie();
 
         movie.setTitle(title);
         movie.setGenre(genre);
-        movie.setPosterURL("/uploads/" + fileName);
+        movie.setPosterURL(imageUrl);
 
         Movie savedMovie =
                 movieRepository.save(movie);
